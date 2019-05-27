@@ -24,15 +24,25 @@
 	
 			<ul>
 				<c:forEach var="product" items="${listProduct}">
-					<li>${product.name}</li>
+					
+					
+					  <div class="row">
+					    <div class="col-sm-4" style="background-color:lavender;">${product.name}</div>
+					    <div class="col-sm-4" style="background-color:lavenderblush;">${product.description}</div>
+			    			<div class="col-sm-2" style="background-color:lavender;">
+			                       <a href="/product/delete/${product.id}">Excluir</a></p>
+			                </div>
+			                <div class="col-sm-2" style="background-color:lavender;">
+			                       <a href="/product/update/${product.id}">Alterar</a></p>
+			                </div>
+					  </div>
+  
+  
 				</c:forEach>
 			</ul>
 	
 		</c:if>
-	
-	
-    	
-        
+		    	      
     </c:if>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

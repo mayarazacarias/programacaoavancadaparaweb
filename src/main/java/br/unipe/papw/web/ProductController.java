@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import br.unipe.papw.model.Product;
@@ -26,25 +27,23 @@ public class ProductController {
 	private ProductValidator productValidator;
 	
 	/**
+	 * Para você aluno melhorar.
+	 * @param id
+	 * @return
 	 */
 	@GetMapping("/product")
 	public String listProduct(Model model) {
 				
-		List<Product> listProduct = productService.findAll();
-		System.out.println(listProduct.get(0).getName());
-		model.addAttribute("listProduct",listProduct);
-		
+		List<Product> listProduct = productService.findAll();	
+		model.addAttribute("listProduct",listProduct);		
 		return "module/product/index";
 	}
-
 	
-	@GetMapping("/product/form")
-	public String prepareProductForm(Model model) {
-		Product produto = new Product();
-		model.addAttribute("productForm",produto);		
-		return "module/product/formProduct";
-	}
-	
+	/**
+	 * Para você aluno melhorar.
+	 * @param id
+	 * @return
+	 */
 	@PostMapping("/product")
 	public String save(@ModelAttribute("productForm") Product product, BindingResult bindingResult) {
 		 if (bindingResult.hasErrors()) {
@@ -55,5 +54,49 @@ public class ProductController {
 		 
 		return "module/product/index";
 	}
+
+	/**
+	 */
+	@GetMapping("/product/delete/{id}")
+	public String delete(@PathVariable("id") Long id) {
+				
+		productService.delete(id);	
+	
+		return "redirect:/product";
+	}
+	
+	
+	@GetMapping("/product/update/{id}")
+	public String update(@PathVariable("id") Long id, Model model) {
+		
+		Product product = productService.findById(id);
+		model.addAttribute("productUpdate",product);
+		 
+		return "module/product/formUpdateProduct";
+	}
+	
+	
+	
+	@PostMapping("/product/update")
+	public String update(@ModelAttribute("productUpdate") Product product, BindingResult bindingResult) {
+		 if (bindingResult.hasErrors()) {
+	            return "module/product/productForm";
+	        }
+		 productService.save(product);
+
+		 
+		return "module/product/index";
+	}
+
+	
+	
+	
+	@GetMapping("/product/form")
+	public String prepareProductForm(Model model) {
+		Product produto = new Product();
+		model.addAttribute("productForm",produto);		
+		return "module/product/formProduct";
+	}
+
 
 }

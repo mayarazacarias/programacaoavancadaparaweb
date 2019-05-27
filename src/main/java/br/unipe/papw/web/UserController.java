@@ -1,6 +1,7 @@
 package br.unipe.papw.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,11 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
+	/**
+	 * Para você aluno melhorar.
+	 * @param id
+	 * @return
+	 */
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -31,9 +37,15 @@ public class UserController {
         return "registration";
     }
 
+	/**
+	 * Para você aluno melhorar.
+	 * @param id
+	 * @return
+	 */
     @PostMapping("/registration")
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
-        userValidator.validate(userForm, bindingResult);
+       
+    	userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
@@ -45,7 +57,13 @@ public class UserController {
 
         return "redirect:/welcome";
     }
-
+    
+    
+	/**
+	 * Para você aluno melhorar.
+	 * @param id
+	 * @return
+	 */
     @GetMapping("/login")
     public String login(Model model, String error, String logout) {
         if (error != null)
@@ -57,6 +75,11 @@ public class UserController {
         return "login";
     }
 
+	/**
+	 * Para você aluno melhorar.
+	 * @param id
+	 * @return
+	 */
     @GetMapping({"/", "/welcome"})
     public String welcome(Model model) {
     	
