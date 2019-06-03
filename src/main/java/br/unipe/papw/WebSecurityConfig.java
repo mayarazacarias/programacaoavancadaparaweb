@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.unipe.papw.filter.JWTAuthenticationFilter;
+import br.unipe.papw.filter.JWTLoginFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +33,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/registration", 
                 		"/produto/api/**").permitAll()
                 .anyRequest().authenticated()
+             
+               
                 .and()
-            .formLogin()
-                .loginPage("/login").permitAll()
-                .and()
-            .logout()
-                .permitAll();
+          
+        
+
+		.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class)
+		
+		// filtra outras requisições para verificar a presença do JWT no header
+		.addFilterBefore(new JWTAuthenticationFilter(),
+                UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

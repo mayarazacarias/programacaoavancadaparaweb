@@ -82,7 +82,7 @@ public class ProductController {
 		 if (bindingResult.hasErrors()) {
 	            return "module/product/productForm";
 	        }
-		 productService.save(product);
+		 productService.update(product);
 
 		 
 		return "module/product/index";
