@@ -20,7 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.unipe.papw.model.User;
 import br.unipe.papw.service.security.TokenAuthenticationService;
 
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+public class JWTLoginFilter 
+        extends AbstractAuthenticationProcessingFilter {
 
 	public JWTLoginFilter(String url, AuthenticationManager authManager) {
 		super(new AntPathRequestMatcher(url));
